@@ -39,9 +39,17 @@ end
 P = H/(Nrows*Ncols);
 
 % compute the mean (11.11)
-mu =  50; %TODO #1
+mu =  0;                                                                    %TODO #1 DONE
+for z = 1:(N-1)
+    mu = mu + z * P(z);
+end
+
 % compute the image variance (11.13)
-sigSq =  500; %TODO #2
+sigSq = 0;                                                                  %TODO #2 DONE
+for z = 1:(N-1)
+    sigSq = sigSq + ((z - mu)^2 * P(z));
+end
+sigSq = double(sigSq);
 
 %allocate variables
 q0 = zeros(N,1);
@@ -55,24 +63,24 @@ mu0(1)  = 0; %always zero
 mu1(1) =  mu;
 for zt = 1:N-1
     % compute q0 (11.17)   (q0 = cumsum(P))
-    q0(zt+1) = 50; %TODO #3;
+    q0(zt+1) = P(zt+1) + q0(zt);                                            %TODO #3 DONE
     
     % compute mu0 (11.18)
     if q0(zt+1)>0  %mu0f = cumsum(zP)./q0f;
-        mu0(zt+1)   =  20; %TODO #4
+        mu0(zt+1) = ((zt+1)*P(zt+1)+q0(zt)*mu0(zt))/q0(zt+1);               %TODO #4 DONE
     else  % avoid divide by zero error
         mu0(zt+1)   = 0;
     end
     
     %compute mu1 (11.19)
     if q0(zt+1) < 1
-        mu1(zt+1) =  20; %TODO #5
+        mu1(zt+1) = (mu-q0(zt+1)*mu0(zt+1))/(1-q0(zt+1));                   %TODO #5 DONE
     else  % avoid divide by zero error
         mu1(zt+1) = zt+1;
     end
     
     % compute sigb2 (11.16), the between-group variance
-    sigb2(zt+1) = 20; %TODO #6
+    sigb2(zt+1) = q0(zt+1)*(1-q0(zt+1))*(mu0(zt+1)-mu1(zt+1))^2;            %TODO #6 DONE
     
 end
 
