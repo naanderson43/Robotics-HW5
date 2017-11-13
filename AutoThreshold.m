@@ -40,13 +40,13 @@ P = H/(Nrows*Ncols);
 
 % compute the mean (11.11)
 mu =  0;                                                                    %TODO #1 DONE
-for z = 1:(N-1)
+for z = double(1):double(N-1)
     mu = mu + z * P(z);
 end
 
 % compute the image variance (11.13)
 sigSq = 0;                                                                  %TODO #2 DONE
-for z = 1:(N-1)
+for z = double(1):double(N-1)
     sigSq = sigSq + ((z - mu)^2 * P(z));
 end
 sigSq = double(sigSq);
@@ -61,7 +61,7 @@ sigb2 = zeros(N,1);
 q0(1) = P(1);
 mu0(1)  = 0; %always zero
 mu1(1) =  mu;
-for zt = 1:N-1
+for zt = double(1):double(N-1)
     % compute q0 (11.17)   (q0 = cumsum(P))
     q0(zt+1) = P(zt+1) + q0(zt);                                            %TODO #3 DONE
     
