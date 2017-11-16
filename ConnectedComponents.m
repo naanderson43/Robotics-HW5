@@ -77,6 +77,13 @@ for r = 2:Nrows
                 Image(r,c) = min(Image(r,c-1), Image(r-1,c));
                 Equiv = [Equiv; max(Image(r,c-1), Image(r-1,c)), min(Image(r,c-1), Image(r-1,c))];
                 
+                [Erows, ~] = size(Equiv);
+                for e = Erows-1:2
+                    if Equiv(Erows,2) == Equiv(e,1)
+                        Equiv(Erows,2) = Equiv(e,2);
+                    end
+                end         
+                
             else
                 Image(r,c) = label;
                 label = label + 1;
